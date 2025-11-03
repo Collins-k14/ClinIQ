@@ -1,16 +1,17 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_APP_API_URL || 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json'
   }
 });
 
-// Request interceptor
+// Request interceptor - Add Clerk token
 api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
+  async (config) => {
+    // Get Clerk session token
+    const token = await window.Clerk?.session?.getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -24,10 +25,10 @@ api.interceptors.request.use(
 // Response interceptor
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      // Token expired or invalid - Clerk will handle re-auth
+      window.location.href = '/sign-in';
     }
     return Promise.reject(error);
   }

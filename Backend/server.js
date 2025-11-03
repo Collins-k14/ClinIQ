@@ -15,8 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/symptoms', require('./routes/symptoms'));
-app.use('/api/facilities', require('./routes/facilities'));
-app.use('/api/appointments', require('./routes/appointments'));
+//app.use('/api/facilities', require('./routes/facilities'));
+//app.use('/api/appointments', require('./routes/appointments'));
 
 // Health check
 app.get('/api/health', (req, res) => {

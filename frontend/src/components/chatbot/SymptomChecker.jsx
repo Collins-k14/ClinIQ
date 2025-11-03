@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '@clerk/clerk-react';
 import ChatInterface from './ChatInterface';
 import TriageResults from './TriageResult';
 import { symptomService } from '../../services/symptomsService';
-import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../common/LoadingSpinner';
 import Button from '../common/Button';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
@@ -15,7 +15,7 @@ export default function SymptomChecker() {
   const [triageResult, setTriageResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
-  const { user } = useAuth();
+  const { user, isLoaded } = useUser();
   const navigate = useNavigate();
   
   useEffect(() => {

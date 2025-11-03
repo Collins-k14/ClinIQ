@@ -1,6 +1,6 @@
 const SymptomCheck = require('../models/SymptomCheck');
 const { analyzeSymptoms, processConversation } = require('../services/aiService');
-
+const User = require('../models/User');
 // Process chat message
 exports.processMessage = async (req, res) => {
   try {
@@ -80,10 +80,21 @@ exports.checkSymptoms = async (req, res) => {
 exports.saveToHistory = async (req, res) => {
   try {
     const { symptoms, triageResult, conversationHistory } = req.body;
-    const userId = req.user._id;
+    const clerkUserId = req.userId; // From Clerk middleware
+
+    // Create or find user record linked to Clerk ID
+    let user = await User.findOne({ clerkId: clerkUserId });
+    
+    if (!user) {
+      // Create a user record linked to Clerk
+      user = await User.create({
+        clerkId: clerkUserId,
+        // You can sync additional info from Clerk if needed
+      });
+    }
 
     const symptomCheck = new SymptomCheck({
-      userId,
+      userId: user._id,
       symptoms,
       conversation: conversationHistory,
       triageResult: {
