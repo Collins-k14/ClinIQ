@@ -11,6 +11,7 @@ import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import Home from './pages/Home';
 import SymptomCheckerPage from './pages/SymptomCheckerPage';
+import SymptomDetail from './pages/SymptomDetail';
 // import FindFacilities from './pages/FindFacilities';
 import Dashboard from './pages/Dashboard';
 import SignInPage from './pages/SignInPage';
@@ -27,6 +28,7 @@ function App() {
             <Route path="/sign-up/*" element={<SignUpPage />} />                    
             <Route path="/" element={<Home />} />
             <Route path="/symptom-checker" element={<SymptomCheckerPage />} />
+             <Route path="/symptoms/:id" element={<SymptomDetail />} />
             {/* <Route path="/find-facilities" element={<FindFacilities />} /> */}
             
             {/* Protected Route */}

@@ -1,6 +1,7 @@
 const SymptomCheck = require('../models/SymptomCheck');
 const { analyzeSymptoms, processConversation } = require('../services/aiService');
 const User = require('../models/User');
+
 // Process chat message
 exports.processMessage = async (req, res) => {
   try {
@@ -128,16 +129,26 @@ exports.saveToHistory = async (req, res) => {
 // Get symptom history (protected route)
 exports.getSymptomHistory = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const clerkUserId = req.userId; // Comes from Clerk middleware
+    if (!clerkUserId) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+
+    // Find the local user linked to the Clerk ID
+    const user = await User.findOne({ clerkId: clerkUserId });
+    if (!user) {
+      return res.status(404).json({ error: 'User record not found' });
+    }
+
     const { limit = 10, skip = 0 } = req.query;
 
-    const history = await SymptomCheck.find({ userId })
+    const history = await SymptomCheck.find({ userId: user._id })
       .sort({ createdAt: -1 })
       .limit(parseInt(limit))
       .skip(parseInt(skip))
-      .select('-conversation'); // Exclude full conversation for list view
+      .select('-conversation');
 
-    const total = await SymptomCheck.countDocuments({ userId });
+    const total = await SymptomCheck.countDocuments({ userId: user._id });
 
     res.json({
       history,
@@ -145,15 +156,14 @@ exports.getSymptomHistory = async (req, res) => {
         total,
         limit: parseInt(limit),
         skip: parseInt(skip),
-        hasMore: total > parseInt(skip) + parseInt(limit)
-      }
+        hasMore: total > parseInt(skip) + parseInt(limit),
+      },
     });
-
   } catch (error) {
     console.error('Error getting symptom history:', error);
     res.status(500).json({
       error: 'Failed to get symptom history',
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -161,27 +171,33 @@ exports.getSymptomHistory = async (req, res) => {
 // Get symptom check by ID (protected route)
 exports.getSymptomCheckById = async (req, res) => {
   try {
+    const clerkUserId = req.userId; // Clerk user ID
+    if (!clerkUserId) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+
+    const user = await User.findOne({ clerkId: clerkUserId });
+    if (!user) {
+      return res.status(404).json({ error: 'User record not found' });
+    }
+
     const { id } = req.params;
-    const userId = req.user._id;
 
     const symptomCheck = await SymptomCheck.findOne({
       _id: id,
-      userId
+      userId: user._id,
     });
 
     if (!symptomCheck) {
-      return res.status(404).json({
-        error: 'Symptom check not found'
-      });
+      return res.status(404).json({ error: 'Symptom check not found' });
     }
 
     res.json(symptomCheck);
-
   } catch (error) {
     console.error('Error getting symptom check:', error);
     res.status(500).json({
       error: 'Failed to get symptom check',
-      message: error.message
+      message: error.message,
     });
   }
 };

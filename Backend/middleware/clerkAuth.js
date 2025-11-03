@@ -12,22 +12,17 @@ exports.requireAuth = ClerkExpressRequireAuth({
 exports.getUserInfo = async (req, res, next) => {
   try {
     // req.auth is populated by ClerkExpressRequireAuth
-    if (req.auth && req.auth.userId) {
-      // You can fetch additional user data from Clerk if needed
-      // or use the userId to link to your local user record
+     if (req.auth && req.auth.session && req.auth.session.userId) {
+      req.userId = req.auth.session.userId;
+      next();
+    } else if (req.auth && req.auth.userId) {
       req.userId = req.auth.userId;
       next();
     } else {
-      return res.status(401).json({
-        error: 'Unauthorized',
-        message: 'No valid authentication found'
-      });
+      return res.status(401).json({ error: 'Unauthorized', message: 'No valid user ID found' });
     }
   } catch (error) {
     console.error('Get user info error:', error);
-    return res.status(401).json({
-      error: 'Unauthorized',
-      message: error.message
-    });
+    return res.status(401).json({ error: 'Unauthorized', message: error.message });
   }
 };

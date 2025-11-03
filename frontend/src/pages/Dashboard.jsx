@@ -15,7 +15,7 @@ import Card from '../components/common/Card';
 import Badge from '../components/common/Badge';
 import Button from '../components/common/Button';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-// import { symptomService } from '../services/symptomService';
+import { symptomService } from '../services/symptomsService';
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -40,7 +40,7 @@ export default function Dashboard() {
         setSymptomHistory(history.history || []);
         setStats(prev => ({
           ...prev,
-          totalChecks: history.total || 0
+          totalChecks: history.pagination?.total || 0
         }));
       } catch (error) {
         // User not logged in or no history - that's okay
