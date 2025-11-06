@@ -10,6 +10,7 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import Home from './pages/Home';
+import Profile from "./pages/Profile";
 import SymptomCheckerPage from './pages/SymptomCheckerPage';
 import SymptomDetail from './pages/SymptomDetail';
 // import FindFacilities from './pages/FindFacilities';
@@ -27,8 +28,9 @@ function App() {
             <Route path="/sign-in/*" element={<SignInPage />} />
             <Route path="/sign-up/*" element={<SignUpPage />} />                    
             <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/symptom-checker" element={<SymptomCheckerPage />} />
-             <Route path="/symptoms/:id" element={<SymptomDetail />} />
+            <Route path="/symptoms/:id" element={<SymptomDetail />} />
             {/* <Route path="/find-facilities" element={<FindFacilities />} /> */}
             
             {/* Protected Route */}
