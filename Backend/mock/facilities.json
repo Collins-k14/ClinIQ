@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Nairobi Hospital",
+    "type": "Hospital",
+    "address": "Argwings Kodhek Rd, Nairobi",
+    "phone": "+254 700 123456",
+    "hours": "24/7",
+    "verified": true,
+    "premium": true,
+    "rating": 4.8,
+    "reviews": 210,
+    "services": ["Emergency", "ICU", "Surgery"],
+    "distance": 2.4,
+    "location": { "lat": -1.2921, "lng": 36.8219 }
+  },
+  {
+    "name": "Goodlife Pharmacy",
+    "type": "Pharmacy",
+    "address": "Yaya Centre, Nairobi",
+    "phone": "+254 722 987654",
+    "hours": "8AM - 10PM",
+    "verified": true,
+    "premium": false,
+    "rating": 4.3,
+    "reviews": 90,
+    "services": ["Prescriptions", "Vaccines"],
+    "distance": 1.8,
+    "location": { "lat": -1.2929, "lng": 36.8135 }
+  }
+]

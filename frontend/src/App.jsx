@@ -13,7 +13,8 @@ import Home from './pages/Home';
 import Profile from "./pages/Profile";
 import SymptomCheckerPage from './pages/SymptomCheckerPage';
 import SymptomDetail from './pages/SymptomDetail';
-// import FindFacilities from './pages/FindFacilities';
+import FindFacilities from './pages/FindFacilities';
+import FacilityDashboardPage from './pages/FacilityDashboardPage';
 import Dashboard from './pages/Dashboard';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
@@ -31,15 +32,32 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/symptom-checker" element={<SymptomCheckerPage />} />
             <Route path="/symptoms/:id" element={<SymptomDetail />} />
-            {/* <Route path="/find-facilities" element={<FindFacilities />} /> */}
             
-            {/* Protected Route */}
+            {/* Facility Locator - Public Access */}
+            <Route path="/find-facilities" element={<FindFacilities />} />
+            
+            {/* Protected Routes */}
             <Route 
               path="/dashboard" 
               element={
                 <>
                   <SignedIn>
                     <Dashboard />
+                  </SignedIn>
+                  <SignedOut>
+                    <RedirectToSignIn />
+                  </SignedOut>
+                </>
+              } 
+            />
+            
+            {/* Facility Dashboard - Protected for Facility Owners */}
+            <Route 
+              path="/facility-dashboard" 
+              element={
+                <>
+                  <SignedIn>
+                    <FacilityDashboardPage />
                   </SignedIn>
                   <SignedOut>
                     <RedirectToSignIn />
@@ -56,4 +74,6 @@ function App() {
   );
 }
 
+
 export default App;
+

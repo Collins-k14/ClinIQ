@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useUser } from '@clerk/clerk-react'; // If using Clerk
+import { useUser } from '@clerk/clerk-react'; 
 import { 
   UserCircleIcon, 
   CalendarIcon,

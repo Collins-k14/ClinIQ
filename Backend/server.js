@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/user', require('./routes/user'));
 app.use('/api/symptoms', require('./routes/symptoms'));
-//app.use('/api/facilities', require('./routes/facilities'));
+app.use('/api/facilities', require('./routes/facilities'));
 //app.use('/api/appointments', require('./routes/appointments'));
 
 // Health check
@@ -35,12 +35,8 @@ app.use((err, req, res, next) => {
 });
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/cliniq', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('MongoDB connected successfully'))
-.catch(err => console.error('MongoDB connection error:', err));
+const connectDB = require('./config/db');
+connectDB();
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
