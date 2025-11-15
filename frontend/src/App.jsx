@@ -18,6 +18,7 @@ import FacilityDashboardPage from './pages/FacilityDashboardPage';
 import Dashboard from './pages/Dashboard';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
+import AppointmentPage from "./pages/AppointmentPage";
 
 function App() {
   return (
@@ -32,6 +33,8 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/symptom-checker" element={<SymptomCheckerPage />} />
             <Route path="/symptoms/:id" element={<SymptomDetail />} />
+            <Route path="/appointments" element={<AppointmentPage />} />
+
             
             {/* Facility Locator - Public Access */}
             <Route path="/find-facilities" element={<FindFacilities />} />
