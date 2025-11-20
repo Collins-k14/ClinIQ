@@ -1,50 +1,43 @@
 import api from './api';
-import { getAuth } from '@clerk/clerk-react';
-
-const getAuthHeader = async () => {
-  const { getToken } = getAuth();
-  const token = await getToken();
-  return { Authorization: `Bearer ${token}` };
-};
 
 export const appointmentService = {
-    // get appointments for logged-in user
+  // Get appointments for logged-in user
   getUserAppointments: async () => {
-    const headers = await getAuthHeader();
-    const response = await api.get('/appointments', { headers });
+    const response = await api.get('/appointments');
     return response.data;
   },
-   // Get facility appointments (for facility accounts)
+
+  // Get facility appointments (for facility accounts)
   getFacilityAppointments: async (facilityId) => {
-    const headers = await getAuthHeader();
-    const response = await api.get(`/appointments/facility/${facilityId}`, { headers });
+    const response = await api.get(`/appointments/facility/${facilityId}`);
     return response.data;
   },
-   //create appointment
+
+  // Create appointment
   createAppointment: async (appointmentData) => {
-    const headers = await getAuthHeader();
-    const response = await api.post('/appointments', appointmentData, { headers });
+    const response = await api.post('/appointments', appointmentData);
     return response.data;
   },
-   //update appointment
+
+  // Update appointment
   updateAppointment: async (id, appointmentData) => {
-    const headers = await getAuthHeader();
-    const response = await api.put(`/appointments/${id}`, appointmentData, { headers });
+    const response = await api.put(`/appointments/${id}`, appointmentData);
     return response.data;
   },
-   //cancel appointment
+
+  // Cancel appointment
   cancelAppointment: async (id) => {
-    const headers = await getAuthHeader();
-    const response = await api.put(`/appointments/${id}/cancel`, null, { headers });
+    const response = await api.put(`/appointments/${id}/cancel`);
     return response.data;
   },
-    //get available slots for a facility on a specific date
+
+  // Get available slots for a facility on a specific date
   getAvailableSlots: async (facilityId, date) => {
-    const headers = await getAuthHeader();
     const response = await api.get(`/appointments/slots/${facilityId}`, {
-      params: { date },
-      headers
+      params: { date }
     });
     return response.data;
   }
 };
+
+export default appointmentService;

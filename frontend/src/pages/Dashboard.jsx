@@ -16,10 +16,12 @@ import Badge from '../components/common/Badge';
 import Button from '../components/common/Button';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { symptomService } from '../services/symptomsService';
+import { appointmentService } from '../services/appointmentService'; 
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [symptomHistory, setSymptomHistory] = useState([]);
+  const [appointments, setAppointments] = useState([]); 
   const [stats, setStats] = useState({
     totalChecks: 0,
     upcomingAppointments: 0,
@@ -46,6 +48,20 @@ export default function Dashboard() {
         // User not logged in or no history - that's okay
         console.log('No symptom history available');
       }
+
+      //  Fetch Upcoming Appointments
+      try {
+        const res = await appointmentService.getUserAppointments();
+        const appts = res.appointments || [];
+        setAppointments(appts);
+
+        setStats(prev => ({
+          ...prev,
+          upcomingAppointments: appts.length
+        }));
+      } catch (err) {
+        console.log("No appointments available");
+      }
       
     } catch (error) {
       console.error('Error loading dashboard:', error);
@@ -53,6 +69,8 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
+
+  
 
   if (loading) {
     return (
@@ -175,13 +193,22 @@ export default function Dashboard() {
                 </Link>
               </div>
 
-              <EmptyState
-                icon={CalendarIcon}
-                title="No upcoming appointments"
-                description="Book your first appointment with a healthcare provider"
-                actionText="Book Appointment"
-                actionLink="/appointments"
-              />
+              {/* Appointment LOGIC */}
+              {appointments.length > 0 ? (
+                <div className="space-y-4">
+                  {appointments.slice(0, 5).map((appt) => (
+                    <AppointmentItem key={appt._id} appt={appt} />
+                  ))}
+                </div>
+              ) : (
+                <EmptyState
+                  icon={CalendarIcon}
+                  title="No upcoming appointments"
+                  description="Book your first appointment with a healthcare provider"
+                  actionText="Book Appointment"
+                  actionLink="/appointments"
+                />
+              )}
             </Card>
           </div>
 
@@ -373,6 +400,33 @@ function SymptomCheckItem({ check }) {
       </div>
       <Link 
         to={`/symptoms/${check._id}`}
+        className="text-primary-600 hover:text-primary-700 ml-4"
+      >
+        <ArrowRightIcon className="h-5 w-5" />
+      </Link>
+    </div>
+  );
+}
+
+// COMPONENT FOR APPOINTMENTS
+function AppointmentItem({ appt }) {
+  return (
+    <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-primary-500 transition-colors">
+      <div className="flex items-start space-x-4 flex-1">
+        <div className="bg-green-100 p-2 rounded-lg flex-shrink-0">
+          <CalendarIcon className="h-5 w-5 text-green-600" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-gray-900">
+            {appt.facilityId?.name || "Healthcare Facility"} {/* use populated facility */}
+          </p>
+          <p className="text-xs text-gray-500">
+            {appt.date} • {appt.time}
+          </p>
+        </div>
+      </div>
+      <Link 
+        to={`/appointments/${appt._id}`}
         className="text-primary-600 hover:text-primary-700 ml-4"
       >
         <ArrowRightIcon className="h-5 w-5" />

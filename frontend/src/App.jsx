@@ -19,6 +19,7 @@ import Dashboard from './pages/Dashboard';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import AppointmentPage from "./pages/AppointmentPage";
+import AppointmentDetails from './pages/AppointmentDetails';
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
             <Route path="/symptom-checker" element={<SymptomCheckerPage />} />
             <Route path="/symptoms/:id" element={<SymptomDetail />} />
             <Route path="/appointments" element={<AppointmentPage />} />
+            <Route path="/appointments/:id" element={<AppointmentDetails />} />
+
 
             
             {/* Facility Locator - Public Access */}

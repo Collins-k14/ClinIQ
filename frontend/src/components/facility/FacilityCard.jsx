@@ -1,7 +1,7 @@
 import React from 'react';
 import { MapPin, Star, Clock, Phone, Navigation, Award, CheckCircle } from 'lucide-react';
 
-const FacilityCard = ({ facility, onClick }) => {
+const FacilityCard = ({ facility, onClick, onBook ,onSelect }) => {
   return (
     <div 
       className="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition-shadow"
@@ -56,7 +56,7 @@ const FacilityCard = ({ facility, onClick }) => {
         <button 
           onClick={(e) => {
             e.stopPropagation();
-            // Handle booking
+            if (onBook) onBook();// Handle booking
           }}
           className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
         >

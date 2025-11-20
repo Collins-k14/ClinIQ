@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, Filter, MapPin, Menu } from 'lucide-react';
 import { useUser } from '@clerk/clerk-react';
 import toast from 'react-hot-toast';
@@ -7,7 +8,10 @@ import FacilityDetails from '../components/facility/FacilityDetails';
 import MapView from '../components/facility/MapView';
 import { fetchFacilities } from '../services/facilityApi';
 
+
 const FindFacilities = () => {
+  const navigate = useNavigate();
+  const [bookingStep, setBookingStep] = useState(1); // 1: select, 2: booking form
   const { user } = useUser();
   const [userView, setUserView] = useState('list');
   const [facilities, setFacilities] = useState([]);
@@ -179,12 +183,14 @@ const FindFacilities = () => {
             {userView === 'list' ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {filteredFacilities.map(facility => (
-                  <FacilityCard 
-                    key={facility.id} 
-                    facility={facility}
-                    onClick={() => setSelectedFacility(facility)}
-                  />
-                ))}
+                <FacilityCard
+                  key={facility._id}
+                  facility={facility}
+                  onClick={() => setSelectedFacility(facility)}
+                  onBook={() => navigate('/appointment')}
+              />
+
+))}
               </div>
             ) : (
               <MapView 

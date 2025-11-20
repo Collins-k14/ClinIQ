@@ -1,4 +1,3 @@
-// components/MapView.jsx
 import React from "react";
 import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from "@react-google-maps/api";
 import { MapPin } from "lucide-react";

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
-  userId: {
+  clerkId: {
     type: String,
     ref: 'User',
     required: true
