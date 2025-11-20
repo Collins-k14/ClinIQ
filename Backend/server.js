@@ -35,7 +35,7 @@ app.use((err, req, res, next) => {
 });
 
 // MongoDB Connection
-const connectDB = require('./config/db');
+const connectDB = require('./controllers/config/db');
 connectDB();
 
 const PORT = process.env.PORT || 5000;

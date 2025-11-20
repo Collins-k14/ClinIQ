@@ -10,6 +10,7 @@ import {
   UserGroupIcon
 } from '@heroicons/react/24/outline';
 
+
 export default function Home() {
   const features = [
     {
@@ -63,21 +64,21 @@ export default function Home() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                 Your Health, Simplified
               </h1>
-              <p className="text-xl md:text-2xl text-primary-100 mb-8">
+              <p className="text-xl md:text-2xl text-blue-100 mb-8">
                 Check symptoms, find facilities, and book appointments - all in one place.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/symptom-checker" className="btn bg-white text-primary-600 hover:bg-gray-100 text-center text-lg px-8 py-3">
+                <Link to="/symptom-checker" className="btn bg-white text-blue-600 hover:bg-gray-100 text-center text-lg px-8 py-3">
                   Check Symptoms
                 </Link>
-                <Link to="/find-facilities" className="btn bg-primary-700 text-white hover:bg-primary-800 text-center text-lg px-8 py-3">
+                <Link to="/find-facilities" className="btn bg-blue-700 text-white hover:bg-blue-800 text-center text-lg px-8 py-3">
                   Find Facilities
                 </Link>
               </div>
