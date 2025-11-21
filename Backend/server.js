@@ -14,9 +14,7 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 
 app.use(cors({
   origin: function(origin, callback) {
-    
-    if (!origin) return callback(null, true);
-    
+    if (!origin) return callback(null, true); // allow server-to-server or Postman requests
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -27,8 +25,6 @@ app.use(cors({
   methods: ["GET","POST","PUT","DELETE","OPTIONS"], 
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
-
-app.use(cors(corsOptions));  // apply CORS globally
 
 // Middleware
 app.use(express.json());
