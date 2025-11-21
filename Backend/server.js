@@ -28,7 +28,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.options("*", cors());
+app.use(cors(corsOptions));  // apply CORS globally
 
 // Middleware
 app.use(express.json());
