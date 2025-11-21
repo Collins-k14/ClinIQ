@@ -8,22 +8,34 @@ dotenv.config();
 const app = express();
 
 // CORS Setup
+// Allowed origins from environment variable or fallback to localhost
 const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(",")
-  : ["http://localhost:5173"];
+  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
+  : ['http://localhost:5173'];
 
+// CORS middleware
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow server-to-server or Postman requests
-    if (allowedOrigins.includes(origin)) {
+  origin: (origin, callback) => {
+    // Allow server-to-server or Postman requests with no origin
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.warn(`[CORS] Blocked origin: ${origin}`);
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
     }
   },
   credentials: true,
-  methods: ["GET","POST","PUT","DELETE","OPTIONS"], 
-  allowedHeaders: ["Content-Type", "Authorization"]
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200, // for legacy browsers
+}));
+
+// handle preflight requests explicitly
+app.options('*', cors({
+  origin: allowedOrigins,
+  credentials: true,
 }));
 
 // Middleware
