@@ -23,9 +23,7 @@ This project supports SDG 3: Universal Health Coverage, by improving access to r
 📂Full CRUD Support – Facilities, appointments, and triage records
 
 🌐 Live Demo
-
-(Coming soon…)
-https://cliniq-demo.vercel.app (placeholder)
+https://cliniq-zeta.vercel.app/
 
 🖼️ Screenshots
 
