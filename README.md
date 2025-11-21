@@ -49,8 +49,9 @@ Dashboard
 ![Dashboard](https://github.com/user-attachments/assets/da4198f4-ab5b-4122-8b9f-880fbddd3f8e)
 
 ##
-🛠️ Tech Stack
-Frontend
+# 🛠️ Tech Stack
+
+_Frontend_
 
 React + Vite
 
@@ -60,7 +61,7 @@ Axios
 
 Clerk Authentication
 
-Backend
+_Backend_
 
 Node.js
 
@@ -83,19 +84,24 @@ Render  (Backend deployment)
 📁 Folder Structure
 
 /frontend
-   /src
-      /components
-      /pages
-      /redux
-      /api
-      /utils
+
+    /src
+    /components
+    /pages
+    /context
+    /services
+    /utils
 
 /backend
-   /routes
-   /controllers
-   /models
-   /middleware
-   /config
+
+    /routes
+    /controllers
+    /models
+    /middleware
+    /services
+
+
+##
 
 ⚙️ Installation & Setup Guide
 1. Clone the Repository
@@ -134,19 +140,7 @@ Start the backend:
 
 npm run dev
 
-📡 API Documentation
-
-(Coming soon…)
-Suggested structure:
-
-Auth routes
-
-Appointment routes
-
-Facility routes
-
-Triage routes
-
+##
 📌 Future Improvements
 
 Full AI medical chatbot (integrated with an api for a wider triage results)
