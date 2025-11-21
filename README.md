@@ -132,4 +132,4 @@ Mobile app version
 👨‍💻 Author
 
 Collins Karani
-GitHub | LinkedIn | Email (Add links)
+GitHub | LinkedIn https://www.linkedin.com/in/collins-karani/ | Email collinskarani014@gmail.com
