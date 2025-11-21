@@ -1,3 +1,6 @@
+<img width="700" height="350" alt="Banner" src="https://github.com/user-attachments/assets/d4334151-eedc-4201-8186-6c850bf9cedc" />
+
+
 # 🏥🩺ClinIQ – AI-Powered Medical Triage & Facility Booking Platform 
 ## 
 ClinIQ is a web-based medical triage and facility appointment system designed to help users quickly understand their symptoms using AI, find nearby healthcare facilities, and book appointments seamlessly. Healthcare facilities can also register, list their services, and manage appointments from an admin dashboard.
