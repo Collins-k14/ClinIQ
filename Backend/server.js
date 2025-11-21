@@ -16,7 +16,6 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 // CORS middleware
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow server-to-server or Postman requests with no origin
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
@@ -29,13 +28,7 @@ app.use(cors({
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  optionsSuccessStatus: 200, // for legacy browsers
-}));
-
-// handle preflight requests explicitly
-app.options('*', cors({
-  origin: allowedOrigins,
-  credentials: true,
+  optionsSuccessStatus: 200,
 }));
 
 // Middleware
