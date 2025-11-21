@@ -1,10 +1,11 @@
-🏥🩺ClinIQ – AI-Powered Medical Triage & Facility Booking Platform
-
+# 🏥🩺ClinIQ – AI-Powered Medical Triage & Facility Booking Platform 
+## 
 ClinIQ is a web-based medical triage and facility appointment system designed to help users quickly understand their symptoms using AI, find nearby healthcare facilities, and book appointments seamlessly. Healthcare facilities can also register, list their services, and manage appointments from an admin dashboard.
 
 This project supports SDG 3: Universal Health Coverage, by improving access to reliable symptom assessment and quality health services.
 
-🚀 Key Features
+##
+# 🚀 Key Features
 
 🔍AI Symptom Triage – Users can input symptoms and receive AI-generated triage suggestions
 
@@ -22,13 +23,29 @@ This project supports SDG 3: Universal Health Coverage, by improving access to r
 
 📂Full CRUD Support – Facilities, appointments, and triage records
 
+## 
+
 🌐 Live Demo
 https://cliniq-zeta.vercel.app/
 
 🖼️ Screenshots
 
-(To be added soon…)
+AI Chat
+![AI chat](https://github.com/user-attachments/assets/ae557470-ee78-4c33-a4d5-dc3216e514a3)
 
+Find facilities page
+![find facility](https://github.com/user-attachments/assets/0a4e5667-6936-4de4-9684-f034bdb3917f)
+
+Appointment booking page
+![booking](https://github.com/user-attachments/assets/f18fc1e8-f20f-41cf-8338-1ce21a831c9b)
+
+Booking success page
+![booking sucess](https://github.com/user-attachments/assets/31be59cb-99a3-463d-a8d8-040a0e537ca8)
+
+Dashboard
+![Dashboard](https://github.com/user-attachments/assets/da4198f4-ab5b-4122-8b9f-880fbddd3f8e)
+
+##
 🛠️ Tech Stack
 Frontend
 
@@ -37,8 +54,6 @@ React + Vite
 HTML, CSS, TailwindCSS
 
 Axios
-
-Redux Toolkit
 
 Clerk Authentication
 
@@ -58,7 +73,9 @@ Git & GitHub
 
 Vercel (Frontend deployment)
 
-Render / Railway (Backend deployment)
+Render  (Backend deployment)
+
+## 
 
 📁 Folder Structure
 
@@ -87,23 +104,31 @@ cd frontend
 npm install
 
 Create a .env file:
+
 VITE_API_URL=
+
 VITE_CLERK_PUBLISHABLE_KEY=
+
 VITE_GOOGLE_MAPS_API_KEY=
 
 Run the frontend:
+
 npm run dev
 
 🖥️ Backend Setup
+
 cd backend
+
 npm install
 
 Create a .env file:
+
 MONGO_URI=
-JWT_SECRET=
+
 CLERK_SECRET_KEY=
 
 Start the backend:
+
 npm run dev
 
 📡 API Documentation
@@ -121,7 +146,7 @@ Triage routes
 
 📌 Future Improvements
 
-Full AI medical chatbot
+Full AI medical chatbot (integrated with an api for a wider triage results)
 
 Real-time notifications
 
