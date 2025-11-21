@@ -1,54 +1,20 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
-// Helper function for API calls with Clerk auth
-const apiCall = async (endpoint, options = {}) => {
-  // Get Clerk session token
-  const token = await window.Clerk?.session?.getToken();
-
-  const config = {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }),
-      ...options.headers,
-    },
-  };
-
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error.message || `API Error: ${response.statusText}`);
-  }
-
-  return response.json();
-};
+import api from './api'; // your Axios instance
 
 // Fetch facilities with filters
 export const fetchFacilities = async (filters = {}) => {
   const queryParams = new URLSearchParams();
-  
-  if (filters.type && filters.type !== 'All') {
-    queryParams.append('type', filters.type);
-  }
-  if (filters.verifiedOnly) {
-    queryParams.append('verified', 'true');
-  }
-  if (filters.twentyFourHour) {
-    queryParams.append('twentyFourHour', 'true');
-  }
-  if (filters.nearbyOnly) {
-    queryParams.append('maxDistance', '5');
-  }
-  
-  // Get user's current location
+
+  if (filters.type && filters.type !== 'All') queryParams.append('type', filters.type);
+  if (filters.verifiedOnly) queryParams.append('verified', 'true');
+  if (filters.twentyFourHour) queryParams.append('twentyFourHour', 'true');
+  if (filters.nearbyOnly) queryParams.append('maxDistance', '5');
+
+  // Get user's location
   if (navigator.geolocation) {
     try {
-      const position = await new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          timeout: 5000
-        });
-      });
+      const position = await new Promise((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 })
+      );
       queryParams.append('lat', position.coords.latitude);
       queryParams.append('lng', position.coords.longitude);
     } catch (err) {
@@ -58,37 +24,33 @@ export const fetchFacilities = async (filters = {}) => {
 
   const query = queryParams.toString();
   const endpoint = `/facilities${query ? `?${query}` : ''}`;
-  
-  return apiCall(endpoint);
+
+  const response = await api.get(endpoint);
+  return response.data;
 };
 
-// Fetch facility profile (for logged-in facility owner)
+// Fetch facility profile
 export const fetchFacilityProfile = async () => {
-  return apiCall('/facility/profile');
+  const response = await api.get('/facility/profile');
+  return response.data;
 };
 
 // Update facility profile
 export const updateFacilityProfile = async (profileData) => {
-  return apiCall('/facility/profile', {
-    method: 'PUT',
-    body: JSON.stringify(profileData),
-  });
+  const response = await api.put('/facility/profile', profileData);
+  return response.data;
 };
 
 // Upgrade facility plan
 export const upgradeFacilityPlan = async (planId) => {
-  return apiCall('/facility/upgrade', {
-    method: 'POST',
-    body: JSON.stringify({ planId }),
-  });
+  const response = await api.post('/facility/upgrade', { planId });
+  return response.data;
 };
 
 // Book appointment
 export const bookAppointment = async (facilityId, appointmentData) => {
-  return apiCall(`/facilities/${facilityId}/appointments`, {
-    method: 'POST',
-    body: JSON.stringify(appointmentData),
-  });
+  const response = await api.post(`/facilities/${facilityId}/appointments`, appointmentData);
+  return response.data;
 };
 
 export default {
