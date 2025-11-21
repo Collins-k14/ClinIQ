@@ -8,22 +8,39 @@ dotenv.config();
 const app = express();
 
 // CORS Setup
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(",")
-  : ["http://localhost:5173"]; // fallback for local dev
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || process.env.ALLOWED_ORIGIN || "")
+  .split(",")
+  .map(origin => origin.trim())
+  .filter(Boolean);
 
-app.use(cors({
-  origin: function(origin, callback){
-    if(!origin) return callback(null, true); 
-    if(allowedOrigins.indexOf(origin) === -1){
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+const defaultOrigins = ["http://localhost:5173", "http://127.0.0.1:5173"];
+
+const corsOrigins = allowedOrigins.length > 0 ? allowedOrigins : defaultOrigins;
+
+if (process.env.NODE_ENV !== "production") {
+  const timestamp = new Date().toISOString();
+  process.stdout.write(`[${timestamp}] CORS origins: ${corsOrigins.join(", ")}\n`);
+}
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || corsOrigins.includes(origin) || corsOrigins.includes("*")) {
+      callback(null, true);
+    } else {
+      if (process.env.NODE_ENV !== "production") {
+        process.stderr.write(`[CORS] Blocked origin: ${origin}\n`);
+      }
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
     }
-    return callback(null, true);
   },
-  credentials: true
-}));
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-User-Id"],
+  exposedHeaders: ["Content-Range", "X-Content-Range"],
+  maxAge: 600
+};
 
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json());
