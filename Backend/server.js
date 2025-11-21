@@ -7,8 +7,15 @@ dotenv.config();
 
 const app = express();
 
+// CORS Setup
+const allowedOrigin = process.env.ALLOWED_ORIGIN || "http://localhost:5173";
+
+app.use(cors({
+  origin: allowedOrigin,
+  credentials: true
+}));
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
